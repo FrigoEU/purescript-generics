@@ -150,6 +150,12 @@ instance genericMaybe :: (Generic a) => Generic (Maybe a) where
       fromSpine (SProd "Data.Maybe.Nothing" []) = return Nothing
       fromSpine _ = Nothing
 
+instance genericUnit :: Generic Unit where
+      toSpine x = SProd "Prelude.Unit" []
+      toSignature x = SigProd "Prelude.Unit" [{sigConstructor: "Prelude.Unit", sigValues: []}]
+      fromSpine (SProd "Prelude.Unit" []) = Just unit
+      fromSpine _ = Nothing
+
 instance genericEither :: (Generic a, Generic b) => Generic (Either a b) where
     toSpine (Left x) = SProd "Data.Either.Left" [\u -> toSpine x]
     toSpine (Right x) = SProd "Data.Either.Right" [\u -> toSpine x]
